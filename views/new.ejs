@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RepLog – Log Workout</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <!-- Shared app header -->
+      <header class="app-header">
+        <div class="app-header-inner">
+          <div class="logo-mark">
+            <span>🏋</span>
+          </div>
+          <div class="logo-text">
+            <h1>RepLog</h1>
+            <p>Track your progress one rep at a time.</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Simple breadcrumb back to dashboard -->
+      <a href="/" class="back-link">
+        <span class="icon">←</span>
+        <span>Back to Dashboard</span>
+      </a>
+
+      <h2 class="page-title">Log Workout</h2>
+      <p class="page-subtitle">
+        Capture the effort behind your progress. Fill in the details for this
+        session.
+      </p>
+
+      <!-- Main form posts to POST /entries -->
+      <form action="/entries" method="POST">
+        <div class="form-card">
+          <!-- Section: Date & Exercise -->
+          <div class="form-section">
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="label" for="date">Date</label>
+                <input
+                  id="date"
+                  name="date"
+                  type="date"
+                  class="input"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label class="label" for="exercise">Exercise</label>
+                <input
+                  id="exercise"
+                  name="exercise"
+                  type="text"
+                  class="input"
+                  placeholder="e.g., Barbell Bench Press"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Muscle group -->
+          <div class="form-section">
+            <div class="form-grid">
+              <div class="form-field" style="grid-column: 1 / -1">
+                <label class="label" for="muscleGroup">Muscle Group</label>
+                <select
+                  id="muscleGroup"
+                  name="muscleGroup"
+                  class="select"
+                  required
+                >
+                  <option value="">Select muscle group</option>
+                  <option value="Chest">Chest</option>
+                  <option value="Back">Back</option>
+                  <option value="Legs">Legs</option>
+                  <option value="Shoulders">Shoulders</option>
+                  <option value="Arms">Arms</option>
+                  <option value="Hamstrings">Hamstrings</option>
+                  <option value="Full Body">Full Body</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Sets / reps / weight / RPE -->
+          <div class="form-section">
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="label" for="sets">Sets</label>
+                <input
+                  id="sets"
+                  name="sets"
+                  type="number"
+                  min="1"
+                  class="input"
+                  placeholder="3"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label class="label" for="reps">Reps</label>
+                <input
+                  id="reps"
+                  name="reps"
+                  type="text"
+                  class="input"
+                  placeholder="e.g., 8-8-6"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label class="label" for="weight">Weight (lbs)</label>
+                <input
+                  id="weight"
+                  name="weight"
+                  type="number"
+                  min="0"
+                  step="0.5"
+                  class="input"
+                  placeholder="135"
+                />
+              </div>
+
+              <div class="form-field">
+                <label class="label" for="rpe">RPE (1–10)</label>
+                <input
+                  id="rpe"
+                  name="rpe"
+                  type="number"
+                  min="1"
+                  max="10"
+                  class="input"
+                  placeholder="8"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Notes -->
+          <div class="form-section">
+            <div class="form-field" style="grid-column: 1 / -1">
+              <label class="label" for="notes">Notes</label>
+              <textarea
+                id="notes"
+                name="notes"
+                class="textarea"
+                placeholder="How did the set feel? Any observations…"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Footer buttons -->
+          <div class="form-footer">
+            <a href="/" class="btn btn-ghost">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+              <span class="icon">💾</span>
+              <span>Save Workout</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

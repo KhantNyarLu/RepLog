@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RepLog – Workout Dashboard</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="app-header-inner">
+          <div class="logo-mark"><span>🏋</span></div>
+          <div class="logo-text">
+            <h1>RepLog</h1>
+            <p>Track your progress one rep at a time.</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Top actions -->
+      <div class="top-actions">
+        <h2>Recent Workouts</h2>
+        <div class="action-buttons">
+          <a href="/entries/new" class="btn btn-primary">
+            <span class="icon">＋</span>
+            <span>Log Workout</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Recent Workouts Table -->
+      <section class="card">
+        <div class="card-inner">
+          <div class="card-header">
+            <h3>Recent Workouts</h3>
+            <div class="accent-bar"></div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Exercise</th>
+                  <th>Muscle</th>
+                  <th class="numeric">Sets</th>
+                  <th class="numeric">Reps</th>
+                  <th class="numeric">Weight</th>
+                  <th class="numeric">RPE</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% if (entries.length === 0) { %>
+                <tr>
+                  <td
+                    colspan="8"
+                    style="
+                      text-align: center;
+                      padding: 36px 0;
+                      color: var(--text-muted);
+                    "
+                  >
+                    No workouts logged yet. Click
+                    <strong>Log Workout</strong> to record your first session.
+                  </td>
+                </tr>
+
+                <% } else { %> <% let thisWeek = 0; let totalRpe = 0; let
+                rpeCount = 0; const now = new Date(); const weekAgo = new
+                Date(now.getTime() - 7*24*60*60*1000); %> <%
+                entries.forEach(entry => { const d = new Date(entry.date ||
+                entry.createdAt); if (!isNaN(d) && d >= weekAgo) thisWeek++; if
+                (typeof entry.rpe === "number") { totalRpe += entry.rpe;
+                rpeCount++; } %>
+                <tr>
+                  <td><%= d.toISOString().slice(0,10) %></td>
+                  <td><%= entry.exercise %></td>
+                  <td style="color: var(--text-muted)">
+                    <%= entry.muscleGroup %>
+                  </td>
+                  <td class="numeric"><%= entry.sets %></td>
+                  <td class="numeric"><%= entry.reps %></td>
+                  <td class="numeric">
+                    <%= entry.weight ? entry.weight + " lbs" : "-" %>
+                  </td>
+                  <td class="numeric">
+                    <% if (entry.rpe) { %>
+                    <span class="table-tag"><%= entry.rpe %></span>
+                    <% } else { %> - <% } %>
+                  </td>
+                  <td class="numeric">
+                    <a
+                      href="/entries/<%= entry._id %>/edit"
+                      class="btn btn-ghost btn-small"
+                      >View</a
+                    >
+                  </td>
+                </tr>
+                <% }); %> <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Row -->
+      <% const totalWorkouts = entries.length; let thisWeekCount = 0; let
+      totalRpe2 = 0; let rpeCount2 = 0; const now2 = new Date(); const weekAgo2
+      = new Date(now2.getTime() - 7*24*60*60*1000); entries.forEach(e => { const
+      d2 = new Date(e.date || e.createdAt); if (!isNaN(d2) && d2 >= weekAgo2)
+      thisWeekCount++; if (typeof e.rpe === "number") { totalRpe2 += e.rpe;
+      rpeCount2++; } }); const avgRpe = rpeCount2 > 0 ? (totalRpe2 /
+      rpeCount2).toFixed(1) : "0.0"; %>
+
+      <section class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Workouts</div>
+          <div class="stat-value"><%= totalWorkouts %></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">This Week</div>
+          <div class="stat-value"><%= thisWeekCount %></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Average RPE</div>
+          <div class="stat-value"><%= avgRpe %></div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
